@@ -1,0 +1,132 @@
+li {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    list-style-type: none;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    background-color: #efe7da;
+    box-shadow: 2px 6px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+li.isDone {
+    background-color: #C8C8C8;
+}
+
+#list {
+    overflow-y: auto;
+    display: grid;
+    margin: 0;
+    padding: 0 4px 0 0;
+}
+#list::-webkit-scrollbar {
+    width: 8px;
+}
+#list::-webkit-scrollbar-button {
+    height: 5px;
+}
+#list::-webkit-scrollbar-thumb {
+    background: #0000003d;
+    border-radius: 2rem;
+}
+
+.itemContainer {
+    display: flex;
+    width: 100%;
+}
+
+.taskItemContainer {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.taskItemContainer input {
+    padding: 0;
+    height: initial;
+    width: initial;
+    margin-bottom: 0;
+    display: none;
+    cursor: pointer;
+}
+
+.taskItemContainer label {
+    position: relative;
+    cursor: pointer;
+}
+
+.taskItemContainer label:before {
+    content:'';
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 2px solid #888888;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+.taskItemContainer input:checked + label:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 2px;
+    left: 9px;
+    width: 6px;
+    height: 14px;
+    border: solid #26a69a;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.taskTitle {
+    width: 100%;
+    display: block;
+    margin-right: 8px;
+    font-size: 24px;
+    color: #101010;
+    word-break: break-word;
+}
+
+.taskTitle.isDone {
+    color: #888888;
+}
+
+.taskDate {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    color: #888888;
+}
+
+.deleteBtn {
+    min-width: 28px;
+    min-height: 28px;
+    border: none;
+    color: #888888;
+    background: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    transition: all 0.1s ease-in-out;
+}
+
+.deleteBtn:hover {
+    color: #e75978;
+    font-size: 24px;
+}
+
+.emptyListText {
+    display: flex;
+    margin: 16px 0;
+    padding: 0 24px;
+    font-size: 24px;
+    text-align: center;
+    color: #616161;
+}

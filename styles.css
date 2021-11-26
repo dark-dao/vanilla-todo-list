@@ -1,0 +1,47 @@
+* { font-family: sans-serif; }
+body {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    background: rgb(136,136,136);
+    background: linear-gradient(343deg, rgba(136,136,136,1) 5%, rgba(248,248,248,1) 45%);
+}
+h1 {
+    color: #616161;
+    margin: 0px;
+}
+
+.title {
+    margin-bottom: 12px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 360px;
+    max-width: 600px;
+    max-height: 100vh;
+    height: 100vh;
+    margin-top: 24px;
+    padding: 32px 24px 0;
+}
+
+.formContainer {
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.totalCounter {
+    position: relative;
+    top: 0;
+    margin-bottom: 16px;
+    font-size: 15pt;
+    color: #888888;
+    transition: all 0.2s ease-in-out;
+}
+
+.totalCounter.pre-animation {
+    position: relative;
+    top: -10px
+}

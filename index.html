@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>To Do list</title>
+        <script src="listStore.js"></script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="form.css">
+        <link rel="stylesheet" href="list.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="title">🗓 Список дел</h1>
+            <span id="totalCounter" class="totalCounter"></span>
+            <div class="formContainer">
+                <form id="formNewItem">
+                    <div class="inputContainer">
+                        <input id="newItemText" class="input" type="text" pattern="^(\s+\S+\s*)*(?!\s).*$" required />
+                        <label class="label" for="newItemText">Мне нужно...</label>
+                    </div>
+                    <button class="btn submitButton" type="submit">Добавить</button>
+                </form>
+            </div>
+            <ul id="list"></ul>
+        </div>
+    </body>
+    <script>
+        const localeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', month: 'long', day: 'numeric' }
+        const formNewItem = document.getElementById("formNewItem")
+        const listContainer = document.getElementById("list")
+        const listStore = new ListStore({ localStorageKey: "STORE" })
+        let list = listStore.list
+
+        const setTodoCounterElement = (counter) => {
+            const totalCounterElement = document.getElementById("totalCounter")
+            totalCounterElement.innerHTML = `Осталось выполнить: ${counter}`
+            totalCounterElement.classList.add('pre-animation')
+            setTimeout(() => {
+                totalCounterElement.classList.remove('pre-animation')
+            }, 200)
+        }
+
+        const getListItem = ({ id, title, timeStamp, isDone }) => {
+            let li = document.createElement('li')
+            li.innerHTML += `
+                <div class="taskItemContainer">
+                    <input onclick="onCheckDone(this, '${id}');" ${isDone ? 'checked' : ''} type="checkbox" id="checkbox_${id}">
+                    <label for="checkbox_${id}"></label>
+                    <span class="taskTitle ${isDone ? 'isDone' : ''}">${title}</span>
+                    <button class="deleteBtn" onclick="onDeleteItem('${id}');">✖</button>
+                </div>
+                <span class="taskDate">${new Date(timeStamp).toLocaleDateString('ru-RU', localeOptions)}</span>
+            `
+            li.className = isDone ? 'isDone' : ''
+            return li
+        }
+    
+        const getEmptyListElement = () => {
+            let emptyListElement = document.createElement('div')
+            emptyListElement.className = 'emptyListText'
+            emptyListElement.innerHTML = '✅<br /> Вы все сделали!<br /> Но нет ничего более постоянного чем перемены...'
+            return emptyListElement
+        }
+
+        const renderList = (arrayList = []) => {
+            if(!arrayList.length) {
+                listContainer.appendChild(getEmptyListElement())
+                return
+            }
+            arrayList.map((listItem) => {
+                listContainer.appendChild(getListItem(listItem))
+            });
+            return
+        }
+        
+        renderList(list)
+        setTodoCounterElement(listStore.countTodo)
+
+        const onDeleteItem = (id) => {
+            listStore.remove(id)
+        }
+        const onCheckDone = (cb, id) => {
+            listStore.toggleStatus(id, cb.checked)
+        }
+        const listUpdateCallback = (list, count) => {
+            listContainer.innerHTML = ''
+            renderList(list)
+            setTodoCounterElement(count)
+        }
+        listStore.subscribeToUpdateList(listUpdateCallback)
+
+        formNewItem.onsubmit = (e) => {
+            e.preventDefault()
+            const formNewItem = document.getElementById("newItemText").value
+            if(formNewItem && formNewItem.trim()) {
+                listStore.add({
+                    id: `${new Date().getTime()}_item`,
+                    title: formNewItem.trim(),
+                    isDone: false,
+                    timeStamp: new Date().getTime()
+                })
+            }
+            document.getElementById("newItemText").value = ''
+        }
+    </script>
+</html>

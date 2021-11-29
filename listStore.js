@@ -45,7 +45,7 @@ class ListStore {
     // вспомогательный метод: возвращает массив элементов из стора
     _getData() {
         try {
-            return JSON.parse(localStorage.getItem(this.localStorageKey))
+            return JSON.parse(localStorage.getItem(this.localStorageKey)) || []
         } catch (e) {
             console.error(e)
             return []
